@@ -7,10 +7,10 @@
     "thumbnail": "https://picsum.photos/seed/basket/400/300"
   },
   {
-    "id": "rusty-submarine",
-    "title": "Rusty Submarine",
-    "description": "An underwater adventure game.",
-    "url": "https://v6p9d9t4.ssl.hwcdn.net/html/1943154/index.html",
-    "thumbnail": "https://picsum.photos/seed/submarine/400/300"
+    "id": "drift-boss",
+    "title": "Drift Boss",
+    "description": "A high-speed drifting game.",
+    "url": "https://ubg98.github.io/DriftBoss/",
+    "thumbnail": "https://picsum.photos/seed/drift/400/300"
   }
 ]
