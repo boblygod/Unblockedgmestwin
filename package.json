@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "npx -y serve . -p 3000",
     "build": "echo 'No build needed'",
-    "preview": "node server.js",
+    "preview": "npx -y serve . -p 3000",
     "clean": "rm -rf dist",
     "lint": "echo 'No linting configured'"
   },
