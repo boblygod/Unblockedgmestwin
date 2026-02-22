@@ -24,7 +24,6 @@ function renderGames(games) {
     grid.innerHTML = '';
 
     if (games.length === 0) {
-        grid.innerHTML = '<div class="col-span-full text-center py-20 text-zinc-500">No games found.</div>';
         return;
     }
 
