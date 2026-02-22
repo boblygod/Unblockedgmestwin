@@ -46,20 +46,17 @@ async function init() {
                     await gameFrame.msRequestFullscreen();
                 }
                 
-                // Focus the game frame after entering fullscreen
-                // We use a slight timeout to ensure the fullscreen transition has started
-                setTimeout(() => {
-                    gameFrame.focus();
-                }, 300);
+                // No automatic focus or pointer lock here
+                // This allows the user to use menus before the game takes control
             } catch (err) {
-                console.error("Error attempting to enable full-screen or pointer lock:", err);
+                console.error("Error attempting to enable full-screen:", err);
             }
         };
 
-        // Handle focus when entering fullscreen
+        // Handle fullscreen changes
         document.addEventListener('fullscreenchange', () => {
             if (document.fullscreenElement === gameFrame) {
-                gameFrame.focus();
+                // We don't force focus here either
             }
         });
 
