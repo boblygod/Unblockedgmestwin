@@ -4,20 +4,20 @@
     "title": "Basket Hoop",
     "description": "A fun basketball shooting game.",
     "url": "https://d11jzht7mj96rr.cloudfront.net/games/2024/construct/311/basket-hoop/index-gg.html",
-    "thumbnail": "https://picsum.photos/seed/basket/400/300"
+    "thumbnail": "https://picsum.photos/seed/arcade-neon/800/600"
   },
   {
     "id": "drift-boss",
     "title": "Drift Boss",
     "description": "A high-speed drifting game.",
     "url": "https://ubg98.github.io/DriftBoss/",
-    "thumbnail": "https://picsum.photos/seed/drift/400/300"
+    "thumbnail": "https://picsum.photos/seed/cyber-race/800/600"
   },
   {
     "id": "time-shooter-3-swat",
     "title": "Time Shooter 3 SWAT",
     "description": "A tactical shooter where time only moves when you move.",
     "url": "https://classroomjq.github.io/class2623/time-shooter-3-swat/",
-    "thumbnail": "https://picsum.photos/seed/shooter/400/300"
+    "thumbnail": "https://picsum.photos/seed/matrix-tech/800/600"
   }
 ]
