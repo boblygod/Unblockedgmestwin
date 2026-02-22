@@ -19,5 +19,12 @@
     "description": "A tactical shooter where time only moves when you move.",
     "url": "https://classroomjq.github.io/class2623/time-shooter-3-swat/",
     "thumbnail": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800&h=600"
+  },
+  {
+    "id": "fnaf-shooter",
+    "title": "FNAF Shooter",
+    "description": "Survive the animatronic onslaught in this intense first-person shooter.",
+    "url": "https://bitlifeonline.github.io/class2623/fnaf-shooter/",
+    "thumbnail": "https://images.unsplash.com/photo-1614332287897-cdc485fa562d?auto=format&fit=crop&q=80&w=800&h=600"
   }
 ]
