@@ -1,5 +1,3 @@
-import { GoogleGenAI } from "@google/genai";
-
 async function init() {
     const libraryView = document.getElementById('library-view');
     const playerView = document.getElementById('player-view');
@@ -18,25 +16,49 @@ async function init() {
     const aiForm = document.getElementById('ai-form');
     const aiInput = document.getElementById('ai-input');
 
-    // Initialize Gemini
-    const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-    const model = "gemini-3-flash-preview";
-    
     let chat;
 
+    // 1. Load Games First
     try {
         const response = await fetch(`./games.json?t=${Date.now()}`);
+        if (!response.ok) throw new Error(`Failed to load games: ${response.statusText}`);
         const games = await response.json();
 
-        // Initialize chat with system instruction
-        chat = genAI.chats.create({
-            model: model,
-            config: {
-                systemInstruction: `You are the Arcade Hub Assistant. You help users find games in the library and answer questions about them. 
-                The current games in the library are: ${games.map(g => g.title).join(', ')}.
-                Be friendly, helpful, and concise. If a user asks for a game recommendation, suggest one from the list.`,
-            },
+        games.forEach(game => {
+            const card = document.createElement('div');
+            card.className = 'game-card glass p-5 rounded-[2rem] cursor-pointer group';
+            card.innerHTML = `
+                <div class="relative overflow-hidden rounded-2xl mb-5">
+                    <img src="${game.thumbnail}" class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-110" referrerpolicy="no-referrer">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                        <span class="text-white text-xs font-bold uppercase tracking-widest">Play Now</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold tracking-tight">${game.title}</h3>
+                <p class="text-zinc-500 text-sm mt-2 line-clamp-2 leading-relaxed">${game.description}</p>
+            `;
+            card.onclick = () => play(game);
+            libraryView.appendChild(card);
         });
+
+    // 2. Initialize Gemini Safely
+        try {
+            const apiKey = process.env.GEMINI_API_KEY;
+            if (apiKey) {
+                const { GoogleGenAI } = await import("@google/genai");
+                const genAI = new GoogleGenAI({ apiKey });
+                chat = genAI.chats.create({
+                    model: "gemini-3-flash-preview",
+                    config: {
+                        systemInstruction: `You are the Arcade Hub Assistant. You help users find games in the library and answer questions about them. 
+                        The current games in the library are: ${games.map(g => g.title).join(', ')}.
+                        Be friendly, helpful, and concise. If a user asks for a game recommendation, suggest one from the list.`,
+                    },
+                });
+            }
+        } catch (e) {
+            console.error("Gemini init failed:", e);
+        }
 
         function showLibrary() {
             libraryView.classList.remove('hidden');
@@ -84,23 +106,6 @@ async function init() {
             if (document.fullscreenElement === gameFrame) {
                 // We don't force focus here either
             }
-        });
-
-        games.forEach(game => {
-            const card = document.createElement('div');
-            card.className = 'game-card glass p-5 rounded-[2rem] cursor-pointer group';
-            card.innerHTML = `
-                <div class="relative overflow-hidden rounded-2xl mb-5">
-                    <img src="${game.thumbnail}" class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-110" referrerpolicy="no-referrer">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                        <span class="text-white text-xs font-bold uppercase tracking-widest">Play Now</span>
-                    </div>
-                </div>
-                <h3 class="text-xl font-bold tracking-tight">${game.title}</h3>
-                <p class="text-zinc-500 text-sm mt-2 line-clamp-2 leading-relaxed">${game.description}</p>
-            `;
-            card.onclick = () => play(game);
-            libraryView.appendChild(card);
         });
 
         backBtn.onclick = showLibrary;
@@ -153,13 +158,16 @@ async function init() {
             const loadingMsg = addMessage('Thinking...');
             
             try {
+                if (!chat) {
+                    throw new Error("AI Assistant is not initialized.");
+                }
                 const result = await chat.sendMessage({ message: text });
                 loadingMsg.remove();
                 addMessage(result.text);
             } catch (error) {
                 console.error('Gemini Error:', error);
                 loadingMsg.remove();
-                addMessage('Sorry, I encountered an error. Please try again.');
+                addMessage(error.message || 'Sorry, I encountered an error. Please try again.');
             }
         };
 
