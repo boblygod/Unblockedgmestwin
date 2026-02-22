@@ -5,6 +5,7 @@ async function init() {
     const gameTitle = document.getElementById('current-game-title');
     const backBtn = document.getElementById('back-btn');
     const logo = document.getElementById('site-logo');
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
 
     try {
         const response = await fetch('./games.json');
@@ -30,6 +31,16 @@ async function init() {
             gameFrame.src = game.url;
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        fullscreenBtn.onclick = () => {
+            if (gameFrame.requestFullscreen) {
+                gameFrame.requestFullscreen();
+            } else if (gameFrame.webkitRequestFullscreen) { /* Safari */
+                gameFrame.webkitRequestFullscreen();
+            } else if (gameFrame.msRequestFullscreen) { /* IE11 */
+                gameFrame.msRequestFullscreen();
+            }
+        };
 
         games.forEach(game => {
             const card = document.createElement('div');
