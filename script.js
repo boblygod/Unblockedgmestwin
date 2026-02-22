@@ -9,7 +9,7 @@ async function init() {
     const fullscreenBtn = document.getElementById('fullscreen-btn');
 
     try {
-        const response = await fetch('./games.json');
+        const response = await fetch(`./games.json?t=${Date.now()}`);
         const games = await response.json();
 
         function showLibrary() {
