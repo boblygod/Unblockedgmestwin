@@ -29,8 +29,8 @@ async function init() {
             document.title = `${game.title} | Arcade Hub`;
             
             // Set permissions for better game compatibility
-            gameFrame.setAttribute('allow', 'accelerometer *; ambient-light-sensor *; autoplay *; camera *; clipboard-read *; clipboard-write *; encrypted-media *; fullscreen *; geolocation *; gyroscope *; local-network-access *; magnetometer *; microphone *; midi *; payment *; picture-in-picture *; screen-wake-lock *; speaker *; sync-xhr *; usb *; vibrate *; vr *; web-share *');
-            gameFrame.setAttribute('sandbox', 'allow-downloads allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-storage-access-by-user-activation');
+            gameFrame.setAttribute('allow', 'accelerometer *; ambient-light-sensor *; autoplay *; camera *; clipboard-read *; clipboard-write *; encrypted-media *; fullscreen *; geolocation *; gyroscope *; local-network-access *; magnetometer *; microphone *; midi *; payment *; picture-in-picture *; screen-wake-lock *; speaker *; sync-xhr *; usb *; vibrate *; vr *; web-share *; pointer-lock *');
+            gameFrame.setAttribute('sandbox', 'allow-downloads allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-storage-access-by-user-activation allow-pointer-lock');
             
             gameFrame.src = game.url;
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -47,11 +47,12 @@ async function init() {
                 }
                 
                 // Request pointer lock after entering fullscreen
-                // Some browsers require a slight delay or another user gesture, 
-                // but usually it works if called immediately after requestFullscreen
-                if (gameFrame.requestPointerLock) {
-                    gameFrame.requestPointerLock();
-                }
+                // We use a slight timeout to ensure the fullscreen transition has started
+                setTimeout(() => {
+                    if (gameFrame.requestPointerLock) {
+                        gameFrame.requestPointerLock();
+                    }
+                }, 100);
             } catch (err) {
                 console.error("Error attempting to enable full-screen or pointer lock:", err);
             }
