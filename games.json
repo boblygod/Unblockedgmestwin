@@ -4,20 +4,20 @@
     "title": "Basket Hoop",
     "description": "A fun basketball shooting game.",
     "url": "https://d11jzht7mj96rr.cloudfront.net/games/2024/construct/311/basket-hoop/index-gg.html",
-    "thumbnail": "https://loremflickr.com/800/600/basketball,neon,emerald,dark"
+    "thumbnail": "https://images.unsplash.com/photo-1544910368-5154817c2484?auto=format&fit=crop&q=80&w=800&h=600"
   },
   {
     "id": "drift-boss",
     "title": "Drift Boss",
     "description": "A high-speed drifting game.",
     "url": "https://ubg98.github.io/DriftBoss/",
-    "thumbnail": "https://loremflickr.com/800/600/drift,car,cyberpunk,green"
+    "thumbnail": "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&q=80&w=800&h=600"
   },
   {
     "id": "time-shooter-3-swat",
     "title": "Time Shooter 3 SWAT",
     "description": "A tactical shooter where time only moves when you move.",
     "url": "https://classroomjq.github.io/class2623/time-shooter-3-swat/",
-    "thumbnail": "https://loremflickr.com/800/600/swat,tactical,matrix,emerald"
+    "thumbnail": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800&h=600"
   }
 ]
