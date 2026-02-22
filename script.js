@@ -22,6 +22,11 @@ async function init() {
             playerView.classList.remove('hidden');
             backBtn.classList.remove('hidden');
             gameTitle.textContent = game.title;
+            
+            // Set permissions for better game compatibility
+            gameFrame.setAttribute('allow', 'accelerometer *; ambient-light-sensor *; autoplay *; camera *; clipboard-read *; clipboard-write *; encrypted-media *; fullscreen *; geolocation *; gyroscope *; local-network-access *; magnetometer *; microphone *; midi *; payment *; picture-in-picture *; screen-wake-lock *; speaker *; sync-xhr *; usb *; vibrate *; vr *; web-share *');
+            gameFrame.setAttribute('sandbox', 'allow-downloads allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-storage-access-by-user-activation');
+            
             gameFrame.src = game.url;
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
