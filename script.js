@@ -36,15 +36,39 @@ async function init() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        fullscreenBtn.onclick = () => {
-            if (gameFrame.requestFullscreen) {
-                gameFrame.requestFullscreen();
-            } else if (gameFrame.webkitRequestFullscreen) { /* Safari */
-                gameFrame.webkitRequestFullscreen();
-            } else if (gameFrame.msRequestFullscreen) { /* IE11 */
-                gameFrame.msRequestFullscreen();
+        fullscreenBtn.onclick = async () => {
+            try {
+                if (gameFrame.requestFullscreen) {
+                    await gameFrame.requestFullscreen();
+                } else if (gameFrame.webkitRequestFullscreen) { /* Safari */
+                    await gameFrame.webkitRequestFullscreen();
+                } else if (gameFrame.msRequestFullscreen) { /* IE11 */
+                    await gameFrame.msRequestFullscreen();
+                }
+                
+                // Request pointer lock after entering fullscreen
+                // Some browsers require a slight delay or another user gesture, 
+                // but usually it works if called immediately after requestFullscreen
+                if (gameFrame.requestPointerLock) {
+                    gameFrame.requestPointerLock();
+                }
+            } catch (err) {
+                console.error("Error attempting to enable full-screen or pointer lock:", err);
             }
         };
+
+        // Also handle pointer lock when clicking inside the frame while in fullscreen
+        document.addEventListener('fullscreenchange', () => {
+            if (document.fullscreenElement === gameFrame) {
+                gameFrame.onclick = () => {
+                    if (gameFrame.requestPointerLock) {
+                        gameFrame.requestPointerLock();
+                    }
+                };
+            } else {
+                gameFrame.onclick = null;
+            }
+        });
 
         games.forEach(game => {
             const card = document.createElement('div');
