@@ -46,13 +46,14 @@ async function init() {
                     await gameFrame.msRequestFullscreen();
                 }
                 
-                // Request pointer lock after entering fullscreen
+                // Request pointer lock and focus after entering fullscreen
                 // We use a slight timeout to ensure the fullscreen transition has started
                 setTimeout(() => {
+                    gameFrame.focus();
                     if (gameFrame.requestPointerLock) {
                         gameFrame.requestPointerLock();
                     }
-                }, 100);
+                }, 300);
             } catch (err) {
                 console.error("Error attempting to enable full-screen or pointer lock:", err);
             }
@@ -61,7 +62,9 @@ async function init() {
         // Also handle pointer lock when clicking inside the frame while in fullscreen
         document.addEventListener('fullscreenchange', () => {
             if (document.fullscreenElement === gameFrame) {
+                gameFrame.focus();
                 gameFrame.onclick = () => {
+                    gameFrame.focus();
                     if (gameFrame.requestPointerLock) {
                         gameFrame.requestPointerLock();
                     }
