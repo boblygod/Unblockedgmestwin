@@ -3,51 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unblocked Game</title>
+    <title>Unblocked Games Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { 
-            background-color: #09090b; 
-            color: #fafafa; 
-            font-family: sans-serif; 
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
-        #gameFrame { 
-            background: #000; 
-            width: 95vw; 
-            max-width: 1200px;
-            aspect-ratio: 16/9; 
-            border-radius: 0.75rem; 
-            border: 1px solid rgba(255,255,255,0.1); 
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
+        body { background-color: #09090b; color: #fafafa; font-family: sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .game-card:hover { transform: translateY(-4px); border-color: #10b981; }
+        iframe { background: #000; width: 100%; aspect-ratio: 16/9; border-radius: 0.75rem; border: 1px solid rgba(255,255,255,0.1); }
     </style>
 </head>
-<body class="p-4">
-    <div class="w-full max-w-6xl space-y-6 text-center">
-        <h1 class="text-2xl font-bold tracking-tight text-emerald-500">Basket Hoop</h1>
-        
-        <iframe 
-            id="gameFrame" 
-            src="https://d11jzht7mj96rr.cloudfront.net/games/2024/construct/311/basket-hoop/index-gg.html"
-            width="100%" 
-            height="100%" 
-            frameborder="0" 
-            scrolling="no" 
-            allowfullscreen="true" 
-            webkitallowfullscreen="true" 
-            mozallowfullscreen="true" 
-            msallowfullscreen="true"
-            style="pointer-events: auto;">
-        </iframe>
+<body class="min-h-screen flex flex-col p-6 md:p-12">
+    <div class="max-w-6xl mx-auto w-full space-y-8">
+        <header class="flex items-center justify-between">
+            <h1 id="site-logo" class="text-3xl font-bold tracking-tight cursor-pointer hover:text-emerald-500 transition-colors">Unblocked Games</h1>
+            <button id="back-btn" class="hidden px-4 py-2 glass rounded-lg hover:bg-white/10 transition-colors">← Back to Library</button>
+        </header>
 
-        <p class="text-zinc-500 text-sm italic">If the game doesn't load, please check your internet connection or try a different browser.</p>
+        <main>
+            <!-- Library View -->
+            <div id="library-view" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Games injected here -->
+            </div>
+
+            <!-- Player View -->
+            <div id="player-view" class="hidden space-y-6">
+                <h2 id="current-game-title" class="text-2xl font-bold text-emerald-500"></h2>
+                <div class="relative">
+                    <iframe id="game-frame" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>
+                </div>
+            </div>
+        </main>
     </div>
+
+    <script src="./script.js"></script>
 </body>
 </html>
