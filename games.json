@@ -14,10 +14,10 @@
     "thumbnail": "https://picsum.photos/seed/drift/400/300"
   },
   {
-    "id": "my-rusty-submarine",
-    "title": "My Rusty Submarine",
-    "description": "Repair your submarine and try to get as far as possible.",
-    "url": "/gamez/my-rusty-submarine/index.html",
-    "thumbnail": "https://picsum.photos/seed/submarine/400/300"
+    "id": "time-shooter-3-swat",
+    "title": "Time Shooter 3 SWAT",
+    "description": "A tactical shooter where time only moves when you move.",
+    "url": "https://classroomjq.github.io/class2623/time-shooter-3-swat/",
+    "thumbnail": "https://picsum.photos/seed/shooter/400/300"
   }
 ]
