@@ -12,5 +12,12 @@
     "description": "A high-speed drifting game.",
     "url": "https://ubg98.github.io/DriftBoss/",
     "thumbnail": "https://picsum.photos/seed/drift/400/300"
+  },
+  {
+    "id": "my-rusty-submarine",
+    "title": "My Rusty Submarine",
+    "description": "Repair your submarine and try to get as far as possible.",
+    "url": "https://html-classic.itch.zone/html/1972674/MyRustySubmarineWebGL/index.html?v=1583444505",
+    "thumbnail": "https://picsum.photos/seed/submarine/400/300"
   }
 ]
