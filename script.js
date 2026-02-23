@@ -23,26 +23,39 @@ async function init() {
 
         function play(game) {
             if (game.type === 'about-blank') {
-                const win = window.open('about:blank', '_blank');
-                if (win) {
-                    const doc = win.document;
-                    doc.open();
-                    doc.write(`
+                try {
+                    const blob = new Blob([`
                         <!DOCTYPE html>
-                        <html>
+                        <html style="margin:0;padding:0;height:100%;overflow:hidden;">
                         <head>
+                            <meta charset="UTF-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
                             <title>${game.title}</title>
                             <style>
-                                body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
-                                iframe { border: none; width: 100%; height: 100%; }
+                                body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; }
+                                iframe { border: none; width: 100%; height: 100%; position: fixed; top: 0; left: 0; }
                             </style>
                         </head>
                         <body>
                             <iframe src="${game.url}"></iframe>
                         </body>
                         </html>
-                    `);
-                    doc.close();
+                    `], { type: 'text/html' });
+                    
+                    const blobUrl = URL.createObjectURL(blob);
+                    const win = window.open('about:blank', '_blank');
+                    
+                    if (win) {
+                        win.location.href = blobUrl;
+                        // Clean up the blob URL after a delay
+                        setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+                    } else {
+                        // Fallback if popup is blocked
+                        window.open(game.url, '_blank');
+                    }
+                } catch (e) {
+                    console.error("Cloaking failed, falling back to direct launch:", e);
+                    window.open(game.url, '_blank');
                 }
                 return;
             }
