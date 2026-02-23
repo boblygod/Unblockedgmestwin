@@ -29,9 +29,9 @@
   },
   {
     "id": "google-gemini",
-    "title": "Google Gemini",
-    "description": "Access the powerful Google Gemini AI in a cloaked window.",
-    "url": "https://gemini.google.com",
+    "title": "Google Gemini (Unblocked)",
+    "description": "Access the developer version of Gemini AI, which is often unblocked on restricted networks.",
+    "url": "https://aistudio.google.com/app/prompts/new",
     "thumbnail": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800&h=600",
     "type": "about-blank"
   }
