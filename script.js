@@ -18,7 +18,7 @@ async function init() {
             playerView.classList.add('hidden');
             backBtn.classList.add('hidden');
             gameFrame.src = '';
-            document.title = 'Safe Haven';
+            document.title = 'https://safehavenbms.github.io/SafeHaven/';
         }
 
         function play(game) {
@@ -64,7 +64,7 @@ async function init() {
             backBtn.classList.remove('hidden');
             gameTitle.textContent = game.title;
             gameDesc.textContent = game.description;
-            document.title = `${game.title} | Safe Haven`;
+            document.title = `${game.title} | https://safehavenbms.github.io/SafeHaven/`;
             
             // Set permissions for better game compatibility
             gameFrame.setAttribute('allow', 'accelerometer *; ambient-light-sensor *; autoplay *; camera *; clipboard-read *; clipboard-write *; encrypted-media *; fullscreen *; geolocation *; gyroscope *; local-network-access *; magnetometer *; microphone *; midi *; payment *; picture-in-picture *; screen-wake-lock *; speaker *; sync-xhr *; usb *; vibrate *; vr *; web-share *; pointer-lock *');
