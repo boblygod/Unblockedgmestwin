@@ -22,6 +22,30 @@ async function init() {
         }
 
         function play(game) {
+            if (game.type === 'about-blank') {
+                const win = window.open('about:blank', '_blank');
+                if (win) {
+                    const doc = win.document;
+                    doc.open();
+                    doc.write(`
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>${game.title}</title>
+                            <style>
+                                body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+                                iframe { border: none; width: 100%; height: 100%; }
+                            </style>
+                        </head>
+                        <body>
+                            <iframe src="${game.url}"></iframe>
+                        </body>
+                        </html>
+                    `);
+                    doc.close();
+                }
+                return;
+            }
             libraryView.classList.add('hidden');
             playerView.classList.remove('hidden');
             backBtn.classList.remove('hidden');

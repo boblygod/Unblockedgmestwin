@@ -26,5 +26,13 @@
     "description": "Survive the animatronic onslaught in this intense first-person shooter.",
     "url": "https://bitlifeonline.github.io/class2623/fnaf-shooter/",
     "thumbnail": "https://images.unsplash.com/photo-1614332287897-cdc485fa562d?auto=format&fit=crop&q=80&w=800&h=600"
+  },
+  {
+    "id": "google-gemini",
+    "title": "Google Gemini",
+    "description": "Access the powerful Google Gemini AI in a cloaked window.",
+    "url": "https://gemini.google.com",
+    "thumbnail": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800&h=600",
+    "type": "about-blank"
   }
 ]
