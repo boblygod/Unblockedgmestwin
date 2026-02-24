@@ -1,12 +1,24 @@
+import { GoogleGenAI } from "@google/genai";
+
 async function init() {
     const libraryView = document.getElementById('library-view');
     const playerView = document.getElementById('player-view');
+    const chatView = document.getElementById('chat-view');
     const gameFrame = document.getElementById('game-frame');
     const gameTitle = document.getElementById('current-game-title');
     const gameDesc = document.getElementById('current-game-desc');
     const backBtn = document.getElementById('back-btn');
+    const aiBtn = document.getElementById('ai-btn');
     const logo = document.getElementById('site-logo');
     const fullscreenBtn = document.getElementById('fullscreen-btn');
+    
+    // Chat elements
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const chatMessages = document.getElementById('chat-messages');
+
+    // Initialize Gemini
+    const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
     try {
         const response = await fetch(`./games.json?t=${Date.now()}`);
@@ -16,9 +28,20 @@ async function init() {
         function showLibrary() {
             libraryView.classList.remove('hidden');
             playerView.classList.add('hidden');
+            chatView.classList.add('hidden');
             backBtn.classList.add('hidden');
+            aiBtn.classList.remove('hidden');
             gameFrame.src = '';
             document.title = 'https://safehavenbms.github.io/SafeHaven/';
+        }
+
+        function showChat() {
+            libraryView.classList.add('hidden');
+            playerView.classList.add('hidden');
+            chatView.classList.remove('hidden');
+            backBtn.classList.remove('hidden');
+            aiBtn.classList.add('hidden');
+            document.title = 'AI Assistant | SafeHavenBMS';
         }
 
         function play(game) {
@@ -47,10 +70,8 @@ async function init() {
                     
                     if (win) {
                         win.location.href = blobUrl;
-                        // Clean up the blob URL after a delay
                         setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
                     } else {
-                        // Fallback if popup is blocked
                         window.open(game.url, '_blank');
                     }
                 } catch (e) {
@@ -61,12 +82,13 @@ async function init() {
             }
             libraryView.classList.add('hidden');
             playerView.classList.remove('hidden');
+            chatView.classList.add('hidden');
             backBtn.classList.remove('hidden');
+            aiBtn.classList.add('hidden');
             gameTitle.textContent = game.title;
             gameDesc.textContent = game.description;
             document.title = `${game.title} | https://safehavenbms.github.io/SafeHaven/`;
             
-            // Set permissions for better game compatibility
             gameFrame.setAttribute('allow', 'accelerometer *; ambient-light-sensor *; autoplay *; camera *; clipboard-read *; clipboard-write *; encrypted-media *; fullscreen *; geolocation *; gyroscope *; local-network-access *; magnetometer *; microphone *; midi *; payment *; picture-in-picture *; screen-wake-lock *; speaker *; sync-xhr *; usb *; vibrate *; vr *; web-share *; pointer-lock *');
             gameFrame.setAttribute('sandbox', 'allow-downloads allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-storage-access-by-user-activation allow-pointer-lock');
             
@@ -74,13 +96,75 @@ async function init() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // Chat Logic
+        async function handleChat(e) {
+            e.preventDefault();
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            addMessage(message, 'user');
+            chatInput.value = '';
+
+            const typingId = addTypingIndicator();
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            try {
+                const result = await genAI.models.generateContent({
+                    model: "gemini-3-flash-preview",
+                    contents: message,
+                    config: {
+                        systemInstruction: "You are a helpful AI assistant integrated into SafeHavenBMS. You specialize in helping students with history, math, English, and science. Keep your answers concise, accurate, and encouraging."
+                    }
+                });
+                
+                removeTypingIndicator(typingId);
+                addMessage(result.text, 'ai');
+            } catch (error) {
+                console.error('AI Error:', error);
+                removeTypingIndicator(typingId);
+                addMessage("I'm sorry, I encountered an error. Please try again later.", 'ai');
+            }
+            
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addMessage(text, sender) {
+            const div = document.createElement('div');
+            div.className = `${sender}-message chat-message`;
+            div.textContent = text;
+            chatMessages.appendChild(div);
+            return div;
+        }
+
+        function addTypingIndicator() {
+            const id = 'typing-' + Date.now();
+            const div = document.createElement('div');
+            div.id = id;
+            div.className = 'ai-message chat-message typing-indicator';
+            div.innerHTML = `
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            `;
+            chatMessages.appendChild(div);
+            return id;
+        }
+
+        function removeTypingIndicator(id) {
+            const el = document.getElementById(id);
+            if (el) el.remove();
+        }
+
+        chatForm.onsubmit = handleChat;
+        aiBtn.onclick = showChat;
+
         fullscreenBtn.onclick = async () => {
             try {
                 if (gameFrame.requestFullscreen) {
                     await gameFrame.requestFullscreen();
-                } else if (gameFrame.webkitRequestFullscreen) { /* Safari */
+                } else if (gameFrame.webkitRequestFullscreen) {
                     await gameFrame.webkitRequestFullscreen();
-                } else if (gameFrame.msRequestFullscreen) { /* IE11 */
+                } else if (gameFrame.msRequestFullscreen) {
                     await gameFrame.msRequestFullscreen();
                 }
             } catch (err) {
